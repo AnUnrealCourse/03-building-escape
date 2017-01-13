@@ -35,7 +35,14 @@ private:
 	//return hit for first physics body in reach
 	const FHitResult GetFirstPhysicsBodyInReach();
 
+	//Return start of reach line
+	FVector GetReachLineStart();
+
+	//Returns current end of reach line
+	FVector GetReachLineEnd();
+
 	float Reach = 100.f;
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* InputComponent = nullptr;
+
 };
