@@ -22,19 +22,28 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 
 	//get owner 
+
 	Owner = GetOwner();
 
 	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
+
+	if (!PressurePlate)
+	{
+		//if physics handle not found
+		UE_LOG(LogTemp, Error, TEXT("%s has no pressure plate."), *Owner->GetName());
+	}
 	
 }
 
 void UOpenDoor::OpenDoor()
 {
+	if (!Owner) { return; }
 	Owner->SetActorRotation(FRotator(0.0f, OpenAngle, 0.0f));
 }
 
 void UOpenDoor::CloseDoor()
 {
+	if (!Owner) { return; }
 	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 }
 
@@ -64,6 +73,8 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 
 	//Find all the overlapping actors
 	TArray<AActor*> OverlappingActors;
+
+	if (!PressurePlate) { return TotalMass; }
 
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 
